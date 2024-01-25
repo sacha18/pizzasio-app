@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.pizzasio.R
 import com.example.pizzasio.databinding.FragmentPizzaBinding
 
 class PizzaFragment : Fragment() {
@@ -21,18 +19,17 @@ class PizzaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        val pizzaViewModel =
+            ViewModelProvider(this).get(PizzaViewModel::class.java)
+        // https://slam.cipecma.net/jsabbah/Api/AllPizza
+        val allPiza = arr
         _binding = FragmentPizzaBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val pizzaList = listOf("Pizza Margherita \n5€", "Pizza Pepperoni \n12€", "Pizza Quattro Formaggi\n15€")
-
-
-        val listView: ListView = root.findViewById(R.id.pizza_list)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, pizzaList)
-
-        listView.adapter = adapter
-
+        val listView: ListView = binding.pizzaList
+        pizzaViewModel.text.observe(viewLifecycleOwner) {
+            listView.set
+        }
         return root
     }
 
