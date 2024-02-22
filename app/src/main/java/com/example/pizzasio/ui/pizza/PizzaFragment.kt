@@ -99,7 +99,7 @@ fun PizzaCard(pizza: PizzaModel, modifier: Modifier = Modifier, context: Context
                 contentScale = ContentScale.Crop
             )
             Row(
-                verticalAlignment = Alignment.                          CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
