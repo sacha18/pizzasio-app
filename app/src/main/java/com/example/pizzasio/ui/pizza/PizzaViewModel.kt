@@ -22,12 +22,11 @@ class PizzaViewModel {
             { response ->
                 for (i in 0 until response.length()) {
                     val pizzaJson = response.getJSONObject(i)
+                    val id = pizzaJson.getString("id")
                     val name = pizzaJson.getString("name")
                     val image = pizzaJson.getString("img_url")
                     val price = pizzaJson.getString("price")
-                    // Créer un objet PizzaModel avec les détails extraits
-                    val pizza = PizzaModel(name, image, price)
-                    // Ajouter l'objet PizzaModel à la liste
+                    val pizza = PizzaModel(id, name, image, price)
                     allPizza.add(pizza)
                 }
                 // Appeler le callback avec les données chargées

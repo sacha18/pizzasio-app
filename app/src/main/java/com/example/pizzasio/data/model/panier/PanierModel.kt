@@ -5,10 +5,7 @@ data class PanierModel(
 )
 
 data class PanierItem(
+    val id: String,
     val name: String,
     val price: String
 )
-
-fun PanierModel.getAllCartItemsAsList(): List<PanierItem> {
-    return panierItems.toList()
-}

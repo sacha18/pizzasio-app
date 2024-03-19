@@ -4,38 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddCircle
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import com.example.pizzasio.data.model.panier.getAllCartItemsAsList
-import com.example.pizzasio.ui.Pizzasio.Companion.panier
+import com.example.pizzasio.R
+import com.example.pizzasio.ui.pizza.panierViewModel
 import com.example.pizzasio.ui.theme.PizzaTheme
 
 class PanierFragment : Fragment() {
@@ -57,8 +50,8 @@ class PanierFragment : Fragment() {
 
     @Composable
     fun PanierContent() {
-        val panierValue =
-            panier.getAllCartItemsAsList()
+        val panierValue = panierViewModel.panierItemsState.value
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,7 +60,7 @@ class PanierFragment : Fragment() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
-                panierValue.forEach { panier ->
+                panierValue.forEach { panierItem ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -76,23 +69,25 @@ class PanierFragment : Fragment() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = panier.name + " - " + panier.price + "€",
+                            text = panierItem.name + " - " + panierItem.price + "€",
                             lineHeight = 15.sp
                         )
-                        IconButton(
-                            onClick = {
-                                Toast.makeText(context, "Pizza supprimée", Toast.LENGTH_SHORT)
-                                    .show()
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .fillMaxHeight()
+                        Row {
+                            IconButton(
+                                onClick = {
+                                    panierViewModel.removePizzaFromPanier(panierItem)
 
-                        ) {
-                            Icon(
-                                Icons.Outlined.Close,
-                                contentDescription = "Supprimer la pizza du panier",
-                            )
+                                },
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .fillMaxHeight()
+
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_minus),
+                                    contentDescription = "Supprimer la pizza du panier",
+                                )
+                            }
                         }
                     }
                 }
@@ -108,14 +103,12 @@ class PanierFragment : Fragment() {
                 onClick = { },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black
-                )            ) {
+                )
+            ) {
                 Text("Commander")
             }
-
         }
     }
-
-
 
 
 }

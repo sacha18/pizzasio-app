@@ -19,5 +19,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >3 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="login_no">"No"</string>
     <string name="affirmation1">aaaa</string>
 </resources>

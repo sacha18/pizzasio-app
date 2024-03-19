@@ -2,14 +2,11 @@ package com.example.pizzasio.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.example.pizzasio.data.LoginRepository
-import com.example.pizzasio.data.Result
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.pizzasio.R
@@ -48,7 +45,7 @@ loginRepository: LoginRepository) : AndroidViewModel(application){
             },
             {
                 // En cas d'erreur, considérer comme échec
-                _loginResult.value = LoginResult(error = R.string.login_failed)
+                _loginResult.value = LoginResult(error = R.string.login_no)
             }
         )
         // Ajouter la requête à la file de requêtes
