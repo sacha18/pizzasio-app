@@ -2,17 +2,15 @@ package com.example.pizzasio.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.example.pizzasio.data.LoginRepository
-import com.example.pizzasio.data.Result
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.pizzasio.R
+import com.example.pizzasio.ui.Pizzasio
 
 class LoginViewModel(application: Application, private val
 loginRepository: LoginRepository) : AndroidViewModel(application){
@@ -28,7 +26,7 @@ loginRepository: LoginRepository) : AndroidViewModel(application){
         val queue = Volley.newRequestQueue(getApplication())
         // Construire l'URL de votre API avec les paramètres requis (remplacez
         // URL_API par l'URL réelle)
-        val apiUrl = "https://slam.cipecma.net/jsabbah/Api/Login?email=$username&password=$password"
+        val apiUrl = "https://slam.cipecma.net/2224/svilletard/Api/Login?email=$username&password=$password"
         // Créer une requête JSON avec Volley
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, apiUrl, null,
@@ -38,6 +36,7 @@ loginRepository: LoginRepository) : AndroidViewModel(application){
                 if (!userId.isNullOrEmpty()) {
                     // La connexion réussit, créer l'objet LoggedInUserView
                     val user = LoggedInUserView(displayName = "User $userId")
+                     Pizzasio.user.id = userId
                     _loginResult.value = LoginResult(success = user)
                 } else {
                     // La réponse JSON ne contient pas "id_user", considérer
@@ -48,7 +47,7 @@ loginRepository: LoginRepository) : AndroidViewModel(application){
             },
             {
                 // En cas d'erreur, considérer comme échec
-                _loginResult.value = LoginResult(error = R.string.login_failed)
+                _loginResult.value = LoginResult(error = R.string.login_no)
             }
         )
         // Ajouter la requête à la file de requêtes
