@@ -1,5 +1,6 @@
 package com.example.pizzasio.ui.panier
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,13 +24,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import com.example.pizzasio.R
-import com.example.pizzasio.ui.pizza.panierViewModel
 import com.example.pizzasio.ui.theme.PizzaTheme
+
+val panierViewModel = PanierViewModel()
 
 class PanierFragment : Fragment() {
     override fun onCreateView(
@@ -41,7 +44,7 @@ class PanierFragment : Fragment() {
             setContent {
                 PizzaTheme {
                     Surface(modifier = Modifier.fillMaxSize()) {
-                        PanierContent()
+                        PanierContent(context = LocalContext.current)
                     }
                 }
             }
@@ -49,9 +52,8 @@ class PanierFragment : Fragment() {
     }
 
     @Composable
-    fun PanierContent() {
+    fun PanierContent(context: Context) {
         val panierValue = panierViewModel.panierItemsState.value
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,7 +102,9 @@ class PanierFragment : Fragment() {
             contentAlignment = Alignment.BottomCenter
         ) {
             Button(
-                onClick = { },
+                onClick = {
+                    panierViewModel.makeCommand(context = context, panierValue)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black
                 )

@@ -16,7 +16,7 @@ class PizzaViewModel {
 
         // Créer une file de requêtes Volley
         val queue = Volley.newRequestQueue(application)
-        val apiUrl = "https://slam.cipecma.net/jsabbah/Api/AllPizza"
+        val apiUrl = "https://slam.cipecma.net/2224/svilletard/Api/AllPizza"
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, apiUrl, null,
             { response ->
