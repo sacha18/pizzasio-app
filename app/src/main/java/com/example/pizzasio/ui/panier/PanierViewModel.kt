@@ -15,6 +15,10 @@ import com.example.pizzasio.ui.Pizzasio
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class PanierViewModel : ViewModel() {
     private val panier = Pizzasio.panier
@@ -24,8 +28,38 @@ class PanierViewModel : ViewModel() {
         return panier.panierItems.toList()
     }
 
-    fun addPizzaToPanier(pizza: PizzaModel) {
-        panier.panierItems.add((PanierItem(panier.panierItems.count(), pizza.id, pizza.name, pizza.price)))
+
+    fun addPizzaToPanier(pizza: PizzaModel, size: String) {
+        var price = pizza.price.toBigDecimal() // Convertir le prix de la pizza en BigDecimal
+        val sizePrices = mapOf(
+            "S" to BigDecimal("0.8"), // Multiplicateur de prix pour la taille S
+            "M" to BigDecimal("1.0"), // Multiplicateur de prix pour la taille M
+            "L" to BigDecimal("1.3")  // Multiplicateur de prix pour la taille L
+        )
+
+        // Vérifier si la taille spécifiée est prise en charge
+        if (sizePrices.containsKey(size)) {
+            // Ajuster le prix en fonction de la taille sélectionnée
+            price *= sizePrices[size] ?: BigDecimal.ONE // Utiliser le multiplicateur correspondant à la taille
+        } else {
+            // Taille non prise en charge, prix inchangé
+            println("Taille de pizza non valide: $size")
+        }
+
+        // Formater le prix avec deux décimales et le symbole de l'euro
+        val formatter = DecimalFormat("#0.00", DecimalFormatSymbols.getInstance(Locale.FRANCE))
+        val formattedPrice = formatter.format(price)
+
+        // Ajouter la pizza au panier avec le prix ajusté et formaté
+        panier.panierItems.add(
+            PanierItem(
+                panier.panierItems.count(),
+                pizza.id,
+                pizza.name,
+                size,
+                formattedPrice // Utiliser le prix ajusté et formaté
+            )
+        )
         panierItemsState.value = getAllCartItemsAsList()
     }
 
@@ -47,14 +81,13 @@ class PanierViewModel : ViewModel() {
 
                 pizzaObject.put("id", item.idPizza)
                 pizzaObject.put("price", item.price)
-                pizzaObject.put("size", "xl")
+                pizzaObject.put("size", item.size)
                 pizzaArray.put(pizzaObject)
             }
             postData.put("pizza", pizzaArray)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        Log.d("TAG", "postData: "+postData)
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST,
             postUrl,
