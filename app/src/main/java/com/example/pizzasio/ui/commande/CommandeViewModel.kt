@@ -24,7 +24,6 @@ class CommandeViewModel {
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, apiUrl, null,
             { response ->
-                Log.d("TAG", response.toString())
                 for (i in 0 until response.length()) {
                     val pizzaJson = response.getJSONObject(i)
                     val commandeInfo = pizzaJson.getJSONObject("commande")

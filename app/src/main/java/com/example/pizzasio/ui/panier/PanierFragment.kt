@@ -71,7 +71,7 @@ class PanierFragment : Fragment() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = panierItem.name + " - " + panierItem.price + "€",
+                            text = panierItem.name + " - " + panierItem.price + "€" + " " + panierItem.size,
                             lineHeight = 15.sp
                         )
                         Row {

@@ -8,5 +8,6 @@ data class PanierItem(
     val id: Int,
     val idPizza: String,
     val name: String,
-    val price: String
+    val size: String,
+    val price: String,
 )
