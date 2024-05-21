@@ -15,8 +15,6 @@ L'application mobile PizzaSIO est conçue pour le système d'exploitation Androi
 ### Contraintes Techniques
 - Langage de programmation : Kotlin.
 - Utilisation d'une API pour l'accès aux données.
-- Utilisation de Retrofit pour les requêtes HTTP.
-- Utilisation de Room pour la gestion de la base de données locale.
 - Utilisation d'Android Studio comme environnement de développement.
 
 ### Conventional Commits
