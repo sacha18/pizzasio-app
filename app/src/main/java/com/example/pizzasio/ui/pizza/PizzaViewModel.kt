@@ -25,11 +25,7 @@ class PizzaViewModel {
                     val pizzaJson = response.getJSONObject(i)
                     val id = pizzaJson.getString("id")
                     val name = pizzaJson.getString("name")
-                    val image = if (pizzaJson.has("img_url")) {
-                        pizzaJson.getString("img_url")
-                    } else {
-                        "https://img.freepik.com/photos-gratuite/pizza-pizza-remplie-tomates-salami-olives_140725-1200.jpg?t=st=1714719871~exp=1714723471~hmac=69b8b4a99a0835dfea897e94448aaa3379c7b018d0ed3613e4fd1ff04c4c08fe&w=826"
-                    }
+                    val image = pizzaJson.getString("img_url")
                     val price = pizzaJson.getString("price")
 
                     // Retrieve ingredients for the pizza
